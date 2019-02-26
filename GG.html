@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+      <!----the call of jquery need becouse we used som of it function wuth $--->
+      <!-- <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script> -->
+      <!----tthe calling of geochaqrt $--->
+      <!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
+
+  <title>SB Admin - Charts</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <!-- Page level plugin CSS-->
+  <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>	
+   
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css"/>
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin.css" rel="stylesheet">
+  <link rel="stylesheet" href="leafletcss.css"/>
+
+
+
+  <!-- Make sure you put this AFTER Leaflet's CSS -->
+  <style type="text/css">
+    path {
+    
+      stroke: black;
+      stroke-opacity: 0.5;
+    }
+    body {
+      text-align: center;
+    }
+          /* No style rules here yet */		
+        </style>
+
+  
+
+  
+
+</head>
+
+<body id="page-top">
+
+  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+    <a class="navbar-brand mr-1" href="index.html">Start Bootstrap</a>
+
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Navbar -->
+    <ul class="navbar-nav ml-auto ml-md-0">
+      <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-bell fa-fw"></i>
+          <span class="badge badge-danger">9+</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-envelope fa-fw"></i>
+          <span class="badge badge-danger">7</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown no-arrow">
+        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-user-circle fa-fw"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+          <a class="dropdown-item" href="#">Settings</a>
+          <a class="dropdown-item" href="#">Activity Log</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+        </div>
+      </li>
+    </ul>
+
+  </nav>
+
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="index.html">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Pages</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+          <h6 class="dropdown-header">Login Screens:</h6>
+          <a class="dropdown-item" href="login.html">Login</a>
+          <a class="dropdown-item" href="register.html">Register</a>
+          <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
+          <div class="dropdown-divider"></div>
+          <h6 class="dropdown-header">Other Pages:</h6>
+          <a class="dropdown-item" href="404.html">404 Page</a>
+          <a class="dropdown-item" href="blank.html">Blank Page</a>
+        </div>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" href="charts.html">
+          <i class="fas fa-fw fa-chart-area"></i>
+          <span>Charts</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="tables.html">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Tables</span></a>
+      </li>
+      <li class="nav-item ">
+        <!-- we need to create html map-->
+         <a class="nav-link" href="LL.html">
+           <i  class="fa fa-map" aria-hidden="true"></i>
+           <span>lefelate Map</span></a>
+       </li>
+
+       <li class="nav-item ">
+           <!-- we need to create html map-->
+            <a class="nav-link" href="Google.html">
+              <i class="fa fa-map-marker"></i>
+              <span>Google map</span></a>
+          </li>
+
+          <li class="nav-item active">
+             <!-- we need to create html map-->
+              <a class="nav-link" href="GG.html">
+                <i aria-hidden="true" class="fa fa-map-signs fa-lg"></i>
+                <span>D3</span></a>
+            </li>
+    </ul>
+
+    <div id="content-wrapper">
+
+      <div class="container-fluid">
+
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">D3 Rotating Map</li>
+        </ol>
+
+        <!-- Area Chart Example-->
+        <div class="card mb-3">
+            <div id="d3map" style="width: 400px; height: 400px;">
+              
+        </div>
+
+       
+
+        <p class="small text-center text-muted my-5">
+         
+        </p>
+
+      </div>
+      <!-- /.container-fluid -->
+
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright © Your Website 2019</span>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
+  
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin.min.js"></script>
+  <script type="text/javascript">
+      
+        //Width and height
+        var w = 1000;
+        var h = 600;
+  
+  
+  
+  
+  /***** ALL MATH FUNCTIONS ****/
+  
+  var to_radians = Math.PI / 180;
+  var to_degrees = 180 / Math.PI;
+  
+  
+  // Helper function: cross product of two vectors v0&v1
+  function cross(v0, v1) {
+      return [v0[1] * v1[2] - v0[2] * v1[1], v0[2] * v1[0] - v0[0] * v1[2], v0[0] * v1[1] - v0[1] * v1[0]];
+  }
+  
+  //Helper function: dot product of two vectors v0&v1
+  function dot(v0, v1) {
+      for (var i = 0, sum = 0; v0.length > i; ++i) sum += v0[i] * v1[i];
+      return sum;
+  }
+  
+  // Helper function: 
+  // This function converts a [lon, lat] coordinates into a [x,y,z] coordinate 
+  // the [x, y, z] is Cartesian, with origin at lon/lat (0,0) center of the earth
+  function lonlat2xyz( coord ){
+  
+    var lon = coord[0] * to_radians;
+    var lat = coord[1] * to_radians;
+  
+    var x = Math.cos(lat) * Math.cos(lon);
+  
+    var y = Math.cos(lat) * Math.sin(lon);
+  
+    var z = Math.sin(lat);
+  
+    return [x, y, z];
+  }
+  
+  // Helper function: 
+  // This function computes a quaternion representation for the rotation between to vectors
+  // https://en.wikipedia.org/wiki/Rotation_formalisms_in_three_dimensions#Euler_angles_.E2.86.94_Quaternion
+  function quaternion(v0, v1) {
+  
+    if (v0 && v1) {
+      
+        var w = cross(v0, v1),  // vector pendicular to v0 & v1
+            w_len = Math.sqrt(dot(w, w)); // length of w     
+  
+          if (w_len == 0)
+            return;
+  
+          var theta = .5 * Math.acos(Math.max(-1, Math.min(1, dot(v0, v1)))),
+  
+            qi  = w[2] * Math.sin(theta) / w_len; 
+            qj  = - w[1] * Math.sin(theta) / w_len; 
+            qk  = w[0]* Math.sin(theta) / w_len;
+            qr  = Math.cos(theta);
+  
+        return theta && [qr, qi, qj, qk];
+    }
+  }
+  
+  // Helper function: 
+  // This functions converts euler angles to quaternion
+  // https://en.wikipedia.org/wiki/Rotation_formalisms_in_three_dimensions#Euler_angles_.E2.86.94_Quaternion
+  function euler2quat(e) {
+  
+    if(!e) return;
+      
+      var roll = .5 * e[0] * to_radians,
+          pitch = .5 * e[1] * to_radians,
+          yaw = .5 * e[2] * to_radians,
+  
+          sr = Math.sin(roll),
+          cr = Math.cos(roll),
+          sp = Math.sin(pitch),
+          cp = Math.cos(pitch),
+          sy = Math.sin(yaw),
+          cy = Math.cos(yaw),
+  
+          qi = sr*cp*cy - cr*sp*sy,
+          qj = cr*sp*cy + sr*cp*sy,
+          qk = cr*cp*sy - sr*sp*cy,
+          qr = cr*cp*cy + sr*sp*sy;
+  
+      return [qr, qi, qj, qk];
+  }
+  
+  // This functions computes a quaternion multiply
+  // Geometrically, it means combining two quant rotations
+  // http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/arithmetic/index.htm
+  function quatMultiply(q1, q2) {
+    if(!q1 || !q2) return;
+  
+      var a = q1[0],
+          b = q1[1],
+          c = q1[2],
+          d = q1[3],
+          e = q2[0],
+          f = q2[1],
+          g = q2[2],
+          h = q2[3];
+  
+      return [
+       a*e - b*f - c*g - d*h,
+       b*e + a*f + c*h - d*g,
+       a*g - b*h + c*e + d*f,
+       a*h + b*g - c*f + d*e];
+  
+  }
+  
+  // This function computes quaternion to euler angles
+  // https://en.wikipedia.org/wiki/Rotation_formalisms_in_three_dimensions#Euler_angles_.E2.86.94_Quaternion
+  function quat2euler(t){
+  
+    if(!t) return;
+  
+    return [ Math.atan2(2 * (t[0] * t[1] + t[2] * t[3]), 1 - 2 * (t[1] * t[1] + t[2] * t[2])) * to_degrees, 
+         Math.asin(Math.max(-1, Math.min(1, 2 * (t[0] * t[2] - t[3] * t[1])))) * to_degrees, 
+         Math.atan2(2 * (t[0] * t[3] + t[1] * t[2]), 1 - 2 * (t[2] * t[2] + t[3] * t[3])) * to_degrees
+        ]
+  }
+  
+  /*  This function computes the euler angles when given two vectors, and a rotation
+    This is really the only math function called with d3 code.
+  
+    v0 - starting pos in lon/lat, commonly obtained by projection.invert
+    v1 - ending pos in lon/lat, commonly obtained by projection.invert
+    o0 - the projection rotation in euler angles at starting pos (v0), commonly obtained by projection.rotate
+  */
+  
+  function eulerAngles(v0, v1, o0) {
+  
+    /*
+      The math behind this:
+      - first calculate the quaternion rotation between the two vectors, v0 & v1
+      - then multiply this rotation onto the original rotation at v0
+      - finally convert the resulted quat angle back to euler angles for d3 to rotate
+    */
+  
+    var t = quatMultiply( euler2quat(o0), quaternion(lonlat2xyz(v0), lonlat2xyz(v1) ) );
+    return quat2euler(t);	
+  }
+  
+  
+  /**************end of math functions**********************/
+  
+  
+  var width = 1000,
+      height = 500;
+      r = 250;
+  
+  
+  
+  
+        //Define map projection
+  
+        var projection = d3.geo.orthographic()
+                     .translate([w/2, h/2])
+                                      .scale([250])
+                  
+        //Define path generator
+        var path = d3.geo.path()
+                 .projection(projection);
+  
+  
+  var svg = d3.select("#d3map").append("svg")
+      .attr("width", w)
+      .attr("height", h)
+      .attr("x", 1000)
+      .attr("y", -1500);
+  
+  var drag = d3.behavior.drag()
+        .on("dragstart", dragstarted)
+        .on("drag", dragged)
+        .on("dragend", dragended);
+  
+  svg.call(drag);
+  
+  
+  var gpos0, o0;
+  
+  function dragstarted(){
+  
+    gpos0 = projection.invert(d3.mouse(this));
+    o0 = projection.rotate();
+  
+    svg.insert("path")
+               .datum({type: "Point", coordinates: gpos0})
+               .attr("class", "point")        
+               .attr("d", path); 
+  }
+  
+  function dragged(){
+  
+    var gpos1 = projection.invert(d3.mouse(this));
+  
+    o0 = projection.rotate();
+  
+    var o1 = eulerAngles(gpos0, gpos1, o0);
+    projection.rotate(o1);
+  
+    svg.selectAll(".point")
+         .datum({type: "Point", coordinates: gpos1});
+    svg.selectAll("path").attr("d", path);
+  
+  }
+  
+  function dragended(){
+    svg.selectAll(".point").remove();
+  }
+  
+  d3.json("world-110m.json", function(error, world){
+    if (error) throw error;
+  
+    svg.append("path")
+        .datum(topojson.feature(world, world.objects.land))
+        .attr("class", "land")
+
+        .attr("d", path)
+
+  
+    borders = topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; });
+  
+    svg.append("path")
+        .datum(borders)
+        .attr("class", "border")
+        .attr("x",1000)
+        .attr("y", -1500)
+        .attr("d", path);
+  });
+  
+  
+              //define the color scale 
+              var color = d3.scale.quantize()
+                      .range(["#fff5eb","#fff5ea","#fff4e9","#fff4e8","#fff3e7","#fff3e6","#fff2e6","#fff2e5","#fff1e4","#fff1e3","#fff0e2","#fff0e1","#ffefe0","#ffefdf","#ffeede","#ffeedd","#feeddc","#feeddb","#feecda","#feecd9","#feebd8","#feebd7","#feead6","#feead5","#fee9d4","#fee9d3","#fee8d2","#fee8d1","#fee7d0","#fee6cf","#fee6ce","#fee5cc","#fee5cb","#fee4ca","#fee4c9","#fee3c8","#fee2c7","#fee2c5","#fee1c4","#fee1c3","#fee0c2","#fedfc0","#fedfbf","#fedebe","#feddbd","#feddbb","#fedcba","#fedbb9","#fedab7","#fddab6","#fdd9b4","#fdd8b3","#fdd8b2","#fdd7b0","#fdd6af","#fdd5ad","#fdd4ac","#fdd4aa","#fdd3a9","#fdd2a7","#fdd1a6","#fdd0a4","#fdd0a3","#fdcfa1","#fdcea0","#fdcd9e","#fdcc9d","#fdcb9b","#fdca99","#fdc998","#fdc896","#fdc795","#fdc693","#fdc591","#fdc490","#fdc38e","#fdc28d","#fdc18b","#fdc089","#fdbf88","#fdbe86","#fdbd84","#fdbc83","#fdbb81","#fdba7f","#fdb97e","#fdb87c","#fdb77a","#fdb679","#fdb577","#fdb475","#fdb374","#fdb272","#fdb171","#fdb06f","#fdaf6d","#fdae6c","#fdad6a","#fdac69","#fdab67","#fdaa65","#fda964","#fda762","#fda661","#fda55f","#fda45e","#fda35c","#fda25b","#fda159","#fda058","#fd9f56","#fd9e55","#fd9d53","#fd9c52","#fd9b50","#fd9a4f","#fc994d","#fc984c","#fc974a","#fc9649","#fc9548","#fc9346","#fc9245","#fc9143","#fc9042","#fb8f40","#fb8e3f","#fb8d3e","#fb8c3c","#fb8b3b","#fa8a3a","#fa8938","#fa8837","#fa8736","#fa8534","#f98433","#f98332","#f98230","#f8812f","#f8802e","#f87f2c","#f77e2b","#f77d2a","#f77b29","#f67a27","#f67926","#f57825","#f57724","#f57623","#f47522","#f47420","#f3731f","#f3721e","#f2701d","#f26f1c","#f16e1b","#f16d1a","#f06c19","#f06b18","#ef6a17","#ef6916","#ee6815","#ed6714","#ed6614","#ec6513","#ec6312","#eb6211","#ea6110","#ea6010","#e95f0f","#e85e0e","#e85d0e","#e75c0d","#e65b0c","#e55a0c","#e4590b","#e4580b","#e3570a","#e25609","#e15509","#e05408","#df5308","#de5208","#dd5207","#dc5107","#db5006","#da4f06","#d94e06","#d84d05","#d74c05","#d64c05","#d54b04","#d44a04","#d24904","#d14804","#d04804","#cf4703","#cd4603","#cc4503","#cb4503","#c94403","#c84303","#c74303","#c54203","#c44103","#c24102","#c14002","#bf3f02","#be3f02","#bd3e02","#bb3e02","#ba3d02","#b83d02","#b73c02","#b53b02","#b43b02","#b23a03","#b13a03","#af3903","#ae3903","#ac3803","#ab3803","#aa3703","#a83703","#a73603","#a53603","#a43503","#a33503","#a13403","#a03403","#9f3303","#9d3303","#9c3203","#9b3203","#993103","#983103","#973003","#953003","#942f03","#932f03","#922e04","#902e04","#8f2d04","#8e2d04","#8d2c04","#8b2c04","#8a2b04","#892b04","#882a04","#862a04","#852904","#842904","#832804","#812804","#802704","#7f2704"]);
+  //load productivit you can also download the file localy
+  d3.json("https://emotional-apps.com/apis/meit/stats/getdata.php?test=1&gender=all&age=all&begindate=2000-01-01&enddate=2018-02-04",function(data){
+      //set domain when you load data to avoid disconte of data 
+      color.domain([
+                  d3.min(data, function(d) { return parseFloat(d.score_average); }),
+                  d3.max(data, function(d) { return parseFloat(d.score_average); })
+          ]);
+      //Load in GeoJSON data you can also save the geojuson file  states.json for example if you have different path 
+      //not the exiting you need to use the path  "data/states.json"
+        d3.json("https://pixel.uji.es/teaching/countries.geo.json.php", function(json) {
+  
+                  //merging the data to 
+                  //Merge the ag. data and GeoJSON
+          //Loop through once for each ag. data value
+          //loop loking in both side of data tow looping 
+          for (var i = 0; i < data.length; i++) {
+  
+  //Grab state name
+  var dataState = data[i].iso3;
+  var countryname;
+  //Grab data value, and convert from string to float
+  var dataValue = parseFloat(data[i].score_average);
+  
+  //Find the corresponding state inside the GeoJSON
+  for (var j = 0; j < json.features.length; j++) {
+    
+  var jsonState = json.features[j].id;
+  
+  if (dataState == jsonState) {
+  
+      //Copy the data value into the JSON
+      json.features[j].properties.value = dataValue;
+  //countryname=json.features[j].properties.name;
+  //console.log(countryname);
+      //Stop looking through the JSON
+      break;
+  }
+  }
+  
+  }
+          //Bind data and create one path per GeoJSON feature
+          svg.selectAll("path")
+             .data(json.features)
+             .enter()
+             .append("path")
+
+             .attr("d", path)
+
+            .style("fill", function(d) {
+              
+                                  //Get data value depending on the calue we will fill the color 
+                                  var value = d.properties.value;
+  
+                                  if (value) {
+                                          //If value exists... return blue fro albama  calling the color scale 
+                                          return color(value);
+                                  } else {
+                                          //If value is undefined...
+                                          return "#ccc";
+                                  }
+                     })
+             .append("title")
+
+             .text(function(d) {
+               
+              return d.properties.name +" "+d.properties.value;
+                        
+                     });
+  
+  });
+  // Adding Legend in the map
+  var legend = svg.selectAll('g.legendEntry')
+          .data(["#fee7d0","#fdae6c","#db5006","#ab3803","#7f2704"])
+          .enter()
+          .append('g').attr('class', 'legendEntry');
+          var ls_w = 40, ls_h = 40;
+      legend
+          .append('rect')
+          .attr("x", 100)
+          .attr("y", function(d, i) {
+              return h - (i*ls_h) - 11*ls_h;
+      })
+          .attr("width", ls_w)
+          .attr("height", ls_h)
+          .style("stroke", "black")
+          .style("stroke-width", 1)
+          .style("fill", function(d){return d;}); 
+         //the data objects are the fill colors
+      legend
+          .append('text')
+          .attr("x", 50) //leave 5 pixel space after the <rect>
+          .attr("y", function(d, i) {
+              return h - (20*ls_h) - (5*ls_h) - 10;
+      })
+      // Legend Text for Display 
+      var legend_labels = ["below 45", "45 - 62", "63 - 80", "81 - 98", "more than 99"];
+      legend.append("text")
+      .attr("x",150)
+      .attr("y",function(d,i){return h - (i*ls_h)  - 10*ls_h -15;})
+      .text(function(d,i){ return legend_labels[i]; 
+   });
+        });
+  
+        
+        
+      </script>
+
+
+
+</body>
+
+</html>
